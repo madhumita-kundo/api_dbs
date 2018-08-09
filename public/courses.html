@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Education For All</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="description" content="" />
+<meta name="author" content="http://webthemez.com" />
+ 
+<link href="css/bootstrap.min.css" rel="stylesheet" />
+<link href="css/fancybox/jquery.fancybox.css" rel="stylesheet">
+<link href="css/jcarousel.css" rel="stylesheet" />
+<link href="css/flexslider.css" rel="stylesheet" />
+<link href="css/style.css" rel="stylesheet" />
+ 
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+<body>
+<div id="wrapper">
+<div class="topbar">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <p class="pull-left hidden-xs">Education For All</p>
+        <p class="pull-right"><i class="fa fa-phone"></i>Tel No.(+353)899544913</p>
+      </div>
+    </div>
+  </div>
+</div>
+	<!-- start header -->
+		<header>
+        <div class="navbar navbar-default navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html"><img src="img/logo.png" alt="logo"/>EFA</a>
+                </div>
+                <div class="navbar-collapse collapse ">
+                    <ul class="nav navbar-nav">
+                     
+							 <li><a href="index.html">Home</a></li> 
+							 <li class="dropdown active">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle">About Us <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="about.html">Admin</a></li>
+                            <li><a href="#">Support</a></li>
+                            </ul>
+                    </li> 
+						<li class="active"><a href="courses.html">Courses</a></li>
+                        <li><a href="account.html">account</a></li>
+                        <li><a href="pricing.html">Fees</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+	</header><!-- end header -->
+	<section id="inner-headline">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h2 class="pageTitle">Courses</h2>
+			</div>
+		</div>
+	</div>
+	</section>
+	<section id="content">
+		<div class="container content">		
+        <!-- Service Blcoks -->
+			<h1>HELP ON COURSES</h1>
+    <input type="text" name="searchTerm" value="">
+    <input type="button" id="search" value="search">
+    <div id="outputWiki"></div>
+    <div id="outputYoutube"></div>
+    <script>
+        window.onload = function () {
+            document.getElementById('search').addEventListener('click', showResults)
+        }
+        function showResults() {
+            var searchTerm = document.querySelector('input[name="searchTerm"]').value
+            var url = 'https://en.wikipedia.org/w/api.php?format=json&action=opensearch&origin=*&search=' + searchTerm;
+            var outputWiki = document.querySelector('#outputWiki');
+            var outputYoutube = document.querySelector('#outputYoutube');
+            outputWiki.innerHTML = "<h2>Search Term " + searchTerm + "<h2>";
+            outputYoutube.innerHTML = "<h2>Videos of " + searchTerm + "<h2>";
+            ajaxJS(url, function (response) {
+                console.log(response)
+                for (var x in response) {
+                    var holder = typeof response[x] == 'string' ? response[x] : response[x][0];
+                    outputWiki.innerHTML += '<div class="dataOutput">' + holder + '</div>';
+                }
+            })
+            var url1 = 'https://www.googleapis.com/youtube/v3/search/?part=snippet&key=AIzaSyDiGv9TtXTjP-Ykg4FAq9E6JxCpm1jqmE4&q=' + searchTerm + '&maxResults=4';
+           // var url1 = 'https://www.googleapis.com/youtube/v3/search/?format=json&action=opensearch&origin=part=snippet&key=AIzaSyBAZCjdBYLM_hx30TDOr3vBkGx5rLt3Dg4&q=student&maxResults=4'
+            ajaxJS(url1, function (data) {
+                console.log(data)
+                for (var x in data.items) {
+                    var title = data.items[x].snippet.title;
+                    var desc = data.items[x].snippet.description;
+                    var thumb = data.items[x].snippet.thumbnails.default.url;
+                    var videoID = data.items[x].id.videoId;
+                    outputYoutube.innerHTML += '<div class="panel"><div class="wrap"><div class="content">' + title + '</div><a href="https://youtu.be/' + videoID + '" target="_blank"><img src="' + thumb + '" alt="' + title + '"></a></div></div>'
+                }
+            })
+        }
+        function ajaxJS(url, callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    callback(JSON.parse(xhr.responseText))
+                }
+            }
+            xhr.open('GET', url, true)
+            xhr.send();
+        }
+    </script>
+						<div class="row"> 
+							<div class="col-md-12">
+								<div class="about-logo">
+									<h3>Our Best <span class="color">COURSES</span></h3>
+									<p>We have uploaded courses related to various subjects. Basic plan users might not be able to use other applications. However other users can enjoy all the courses listed in the websites.</p>
+                                    	
+								</div>  
+							</div>
+						</div>
+						 
+						    <!-- Info Blcoks -->
+        
+        <div class="row service-v1 margin-bottom-40">
+            <div class="col-md-4 md-margin-bottom-40">
+               <img class="img-responsive" src="img/service1.jpg" alt="">   
+                <h3>Physics</h3>
+                <p>the branch of science concerned with the nature and properties of matter and energy. The subject matter of physics includes mechanics, heat, light and other radiation, sound, electricity, magnetism, and the structure of atoms.</p>
+            </div>
+            <div class="col-md-4">
+                <img class="img-responsive" src="img/service2.jpg" alt="">            
+                <h3>Chemistry</h3>
+                <p>the branch of science concerned with the substances of which matter is composed, the investigation of their properties and reactions, and the use of such reactions to form new substances.</p>
+            </div>
+            <div class="col-md-4 md-margin-bottom-40">
+              <img class="img-responsive" src="img/service3.jpg" alt="">  
+                <h3>History</h3>
+                <p>Hisory is a continuous, typically chronological, record of important or public events or of a particular trend or institution.
+            </div>
+        </div>
+        <!-- End Service Blcoks -->
+ 
+     
+
+        
+    </div>
+    </section>
+	<footer>
+	
+	<div id="sub-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6">
+					
+				</div>
+				<div class="col-lg-6">
+					<ul class="social-network">
+						<li><a href="#" data-placement="top" title="Facebook"><i class="fa fa-facebook"></i></a></li>
+						<li><a href="#" data-placement="top" title="Twitter"><i class="fa fa-twitter"></i></a></li>
+						<li><a href="#" data-placement="top" title="Linkedin"><i class="fa fa-linkedin"></i></a></li>
+						<li><a href="#" data-placement="top" title="Pinterest"><i class="fa fa-pinterest"></i></a></li>
+						<li><a href="#" data-placement="top" title="Google plus"><i class="fa fa-google-plus"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	</footer>
+</div>
+<a href="#" class="scrollup"><i class="fa fa-angle-up active"></i></a>
+<!-- javascript
+    ================================================== -->
+<!-- Placed at the end of the document so the pages load faster -->
+<script src="js/jquery.js"></script>
+<script src="js/jquery.easing.1.3.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/jquery.fancybox.pack.js"></script>
+<script src="js/jquery.fancybox-media.js"></script>  
+<script src="js/jquery.flexslider.js"></script>
+<script src="js/animate.js"></script>
+<!-- Vendor Scripts -->
+<script src="js/modernizr.custom.js"></script>
+<script src="js/jquery.isotope.min.js"></script>
+<script src="js/jquery.magnific-popup.min.js"></script>
+<script src="js/animate.js"></script>
+<script src="js/custom.js"></script>
+</body>
+</html>
