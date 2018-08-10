@@ -6,7 +6,7 @@ var app = express();
 app.use("/public", express.static(__dirname + "/public"));
 
 app.get('/', function(req, res) {
-    //res.redirect('/public/gmail_firebase.html');
-    res.redirect('/public/index.html');
+    res.redirect('/public/gmail_firebase.html');
+    //res.redirect('/public/index.html');
 });
 app.listen(process.env.PORT || 3000);
