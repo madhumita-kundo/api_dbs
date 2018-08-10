@@ -1,0 +1,140 @@
+<html>
+<head>
+    <!-- **********************************************
+     * TODO(DEVELOPER): Use your Client ID below. *
+     ********************************************** -->
+<meta name="google-signin-client_id" content="AIzaSyAaoP6rgqXKtBR5Ixth9P_xjf9i9FMdcJE">
+<meta name="google-signin-cookiepolicy" content="single_host_origin">
+<meta name="google-signin-scope" content="profile email">
+    
+<script src="https://www.gstatic.com/firebasejs/5.3.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAaoP6rgqXKtBR5Ixth9P_xjf9i9FMdcJE",
+    authDomain: "api-dbs.firebaseapp.com",
+    databaseURL: "https://api-dbs.firebaseio.com",
+    projectId: "api-dbs",
+    storageBucket: "api-dbs.appspot.com",
+    messagingSenderId: "616968712247"
+  };
+  firebase.initializeApp(config);
+</script>
+    <h1>firebase sample</h1>
+</head>
+    <body>
+    <script>
+        
+        console.log(firebase);  
+        var database =firebase.database();
+        var ref = database.ref('scores');
+        
+        var data={
+            name:"DTS",
+            pwd:"mitu"          
+            
+        }
+        ref.push(data);
+        var provider = new firebase.auth.GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+        firebase.auth().languageCode = 'en';
+        firebase.auth().signInWithPopup(provider).then(function(result) {
+  // This gives you a Google Access Token. You can use it to access the Google API.
+  var token = result.credential.accessToken;
+  // The signed-in user info.
+  var user = result.user;
+  // ...
+}).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.email;
+  // The firebase.auth.AuthCredential type that was used.
+  var credential = error.credential;
+  // ...
+});
+        
+        firebase.auth().signInWithRedirect(provider);
+        
+        firebase.auth().getRedirectResult().then(function(result) {
+  if (result.credential) {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    var token = result.credential.accessToken;
+    // ...
+  }
+  // The signed-in user info.
+  var user = result.user;
+}).catch(function(error) {
+  // Handle Errors here.
+  var errorCode = error.code;
+  var errorMessage = error.message;
+  // The email of the user's account used.
+  var email = error.email;
+  // The firebase.auth.AuthCredential type that was used.
+  var credential = error.credential;
+  // ...
+});
+       // Step 1.
+// User tries to sign in to Google.
+auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).catch(function(error) {
+  // An error happened.
+  if (error.code === 'auth/account-exists-with-different-credential') {
+    // Step 2.
+    // User's email already exists.
+    // The pending Google credential.
+    var pendingCred = error.credential;
+    // The provider account's email address.
+    var email = error.email;
+    // Get sign-in methods for this email.
+    auth.fetchSignInMethodsForEmail(email).then(function(methods) {
+      // Step 3.
+      // If the user has several sign-in methods,
+      // the first method in the list will be the "recommended" method to use.
+      if (methods[0] === 'password') {
+        // Asks the user his password.
+        // In real scenario, you should handle this asynchronously.
+        var password = promptUserForPassword(); // TODO: implement promptUserForPassword.
+        auth.signInWithEmailAndPassword(email, password).then(function(user) {
+          // Step 4a.
+          return user.link(pendingCred);
+        }).then(function() {
+          // Google account successfully linked to the existing Firebase user.
+          goToApp();
+        });
+        return;
+      }
+      // All the other cases are external providers.
+      // Construct provider object for that provider.
+      // TODO: implement getProviderForProviderId.
+      var provider = getProviderForProviderId(methods[0]);
+      // At this point, you should let the user know that he already has an account
+      // but with a different provider, and let him validate the fact he wants to
+      // sign in with this provider.
+      // Sign in to provider. Note: browsers usually block popup triggered asynchronously,
+      // so in real scenario you should ask the user to click on a "continue" button
+      // that will trigger the signInWithPopup.
+      auth.signInWithPopup(provider).then(function(result) {
+        // Remember that the user may have signed in with an account that has a different email
+        // address than the first one. This can happen as Firebase doesn't control the provider's
+        // sign in flow and the user is free to login using whichever account he owns.
+        // Step 4b.
+        // Link to Google credential.
+        // As we have access to the pending credential, we can directly call the link method.
+        result.user.linkAndRetrieveDataWithCredential(pendingCred).then(function(usercred) {
+          // Google account successfully linked to the existing Firebase user.
+          goToApp();
+        });
+      });
+    });
+  }
+}); 
+        
+        
+        </script>
+    
+    
+    </body>
+
+
+</html>
