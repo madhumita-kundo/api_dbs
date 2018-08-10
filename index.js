@@ -9,4 +9,4 @@ app.get('/', function(req, res) {
     res.redirect('./public/gmail_firebase.html');
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
